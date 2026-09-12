@@ -1,16 +1,21 @@
 # Markel Claims tech test
 
-A production-style .NET 10 REST API and a minimal Angular UI over in-memory Company and Claims data. The API returns JSON. The UI shows the same data on screen and can download the last successful payload as a `.json` file.
+An app for the tech test using a simple Angular frontend with some basic styling added, with a .NET 10 backend for the Api controllers, using Mediatr library to run the CQRS pattern to keep the queries/commands to the in-store Db simple and clean.
 
-## Run
+The UI returns the GET/PUT data on screen, but also added a save to JSON file option as that's in the specs.
 
+The API key is handled on the UI side for every request so no need to dig for an Api key to paste into the browser and whatnot.
+
+It also includes unit test coverage for the Api.
+
+## To Run, open two terminals, one for UI, one for API..
 API (from the repo root):
 
 ```bash
 dotnet run --project src/Markel.Api --launch-profile http
 ```
 
-The HTTP profile listens on `http://localhost:5042`. Swagger is at `/swagger`.
+The HTTP profile listens on `http://localhost:5042`. Swagger is at `/swagger` though this would be for API only demo'ing.
 
 Angular (from `frontend/`):
 
@@ -52,7 +57,7 @@ Update body:
 {
   "claimDate": "2026-03-10",
   "lossDate": "2026-03-08",
-  "assuredName": "Northwind Warehouse",
+  "assuredName": "Ethan's awesome company",
   "incurredLoss": 12500.50,
   "closed": false
 }
