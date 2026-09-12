@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Markel.Api/Markel.Api.csproj" />
+    <Project Path="src/Markel.Application/Markel.Application.csproj" />
+    <Project Path="src/Markel.Domain/Markel.Domain.csproj" />
+    <Project Path="src/Markel.Infrastructure/Markel.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Markel.Api.Tests/Markel.Api.Tests.csproj" />
+    <Project Path="tests/Markel.Application.Tests/Markel.Application.Tests.csproj" />
+  </Folder>
+</Solution>

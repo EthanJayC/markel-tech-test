@@ -1,0 +1,14 @@
+body {
+  font-family: Segoe UI, sans-serif;
+  margin: 1.5rem;
+  line-height: 1.4;
+}
+
+header {
+  margin-bottom: 1rem;
+}
+
+button,
+a {
+  margin-right: 0.5rem;
+}

@@ -1,0 +1,42 @@
+---
+description: Use Conventional Commits for every git commit message
+alwaysApply: true
+---
+
+# Conventional Commits
+
+Every git commit message MUST follow [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).
+
+Format:
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+Rules:
+
+- `type` is required. Prefer: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+- Description is required: imperative, lowercase start, no trailing period, concise
+- `feat` = a new user-facing capability; `fix` = a bug fix
+- Append `!` after type/scope for a breaking change (e.g. `feat(api)!: remove unversioned routes`)
+- Breaking changes MUST also include a `BREAKING CHANGE:` footer explaining what changed and what callers must do
+- Footers use `Token: value` or `Token #value` (e.g. `Fixes #123`)
+- Do not use `--no-verify` or skip hooks to bypass this format
+
+Examples:
+
+```
+feat(claims): return claim age in days on get-by-ucr
+
+fix(api): reject requests missing X-Api-Key
+
+docs: document demo API key in README
+
+feat(auth)!: require API key on all /api routes
+
+BREAKING CHANGE: unauthenticated calls now return 401
+```
