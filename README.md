@@ -8,6 +8,8 @@ The API key is handled on the UI side for every request so no need to dig for an
 
 It also includes unit test coverage for the Api.
 
+Created using Visual studio code and Cursor for agentic assistance for planning and refining design patterns and architecture.
+
 ## To Run, open two terminals, one for UI, one for API..
 API (from the repo root):
 
