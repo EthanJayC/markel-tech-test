@@ -5,10 +5,15 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   selector: 'app-root',
   imports: [RouterOutlet, RouterLink],
   template: `
-    <header>
-      <a routerLink="/">Markel claims</a>
+    <header class="app-header">
+      <div class="app-header-inner">
+        <a routerLink="/" class="brand">
+          <img src="/markelLogo.png" alt="Markel" />
+          Markel claims
+        </a>
+      </div>
     </header>
-    <main>
+    <main class="page">
       <router-outlet />
     </main>
   `

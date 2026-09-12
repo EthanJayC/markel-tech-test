@@ -8,18 +8,36 @@ import { Company } from './models';
   selector: 'app-company-list',
   imports: [RouterLink],
   template: `
-    <h1>Companies</h1>
+    <div class="page-header">
+      <h1>Companies</h1>
+      @if (companies) {
+        <div class="toolbar">
+          <button type="button" class="primary" (click)="saveJson()">
+            Save companies JSON
+          </button>
+        </div>
+      }
+    </div>
+
     @if (error) {
-      <p>{{ error }}</p>
+      <p class="alert">{{ error }}</p>
     } @else if (!companies) {
-      <p>Loading...</p>
+      <p class="muted">Loading companies…</p>
     } @else {
-      <p><button type="button" (click)="saveJson()">Save JSON</button></p>
-      <ul>
+      <ul class="row-list">
         @for (company of companies; track company.id) {
           <li>
-            <a [routerLink]="['/companies', company.id]">{{ company.name }}</a>
-            — {{ company.hasActiveInsurancePolicy ? 'active policy' : 'no active policy' }}
+            <a [routerLink]="['/companies', company.id]">
+              <span>{{ company.name }}</span>
+              <span class="row-meta">
+                <span
+                  class="badge"
+                  [class.ok]="company.hasActiveInsurancePolicy"
+                >
+                  {{ company.hasActiveInsurancePolicy ? 'Active policy' : 'No active policy' }}
+                </span>
+              </span>
+            </a>
           </li>
         }
       </ul>

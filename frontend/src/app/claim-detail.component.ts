@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ClaimsApiService } from './claims-api.service';
@@ -7,25 +7,46 @@ import { Claim } from './models';
 
 @Component({
   selector: 'app-claim-detail',
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, CurrencyPipe],
   template: `
     @if (error) {
-      <p>{{ error }}</p>
+      <p class="alert">{{ error }}</p>
     } @else if (!claim) {
-      <p>Loading...</p>
+      <p class="muted">Loading claim…</p>
     } @else {
-      <p><a [routerLink]="['/companies', claim.companyId]">Back to company</a></p>
-      <h1>Claim {{ claim.ucr }}</h1>
-      <p>
-        <button type="button" (click)="saveJson()">Save JSON</button>
-        <a [routerLink]="['/claims', claim.ucr, 'edit']">Edit</a>
-      </p>
-      <p>Assured name: {{ claim.assuredName }}</p>
-      <p>Claim date: {{ claim.claimDate | date: 'yyyy-MM-dd' }}</p>
-      <p>Loss date: {{ claim.lossDate | date: 'yyyy-MM-dd' }}</p>
-      <p>Age in days: {{ claim.ageInDays }}</p>
-      <p>Incurred loss: {{ claim.incurredLoss }}</p>
-      <p>Closed: {{ claim.closed ? 'yes' : 'no' }}</p>
+      <a [routerLink]="['/companies', claim.companyId]" class="nav-link">Back to company</a>
+
+      <div class="page-header">
+        <h1>Claim {{ claim.ucr }}</h1>
+        <div class="toolbar">
+          <button type="button" class="primary" (click)="saveJson()">
+            Save claim JSON
+          </button>
+          <a class="button" [routerLink]="['/claims', claim.ucr, 'edit']">Edit claim</a>
+        </div>
+      </div>
+
+      <section class="card">
+        <h2>Claim</h2>
+        <dl class="facts">
+          <dt>Assured name</dt>
+          <dd>{{ claim.assuredName }}</dd>
+          <dt>Claim date</dt>
+          <dd>{{ claim.claimDate | date: 'yyyy-MM-dd' }}</dd>
+          <dt>Loss date</dt>
+          <dd>{{ claim.lossDate | date: 'yyyy-MM-dd' }}</dd>
+          <dt>Age in days</dt>
+          <dd>{{ claim.ageInDays }}</dd>
+          <dt>Incurred loss</dt>
+          <dd>{{ claim.incurredLoss | currency: 'GBP' }}</dd>
+          <dt>Status</dt>
+          <dd>
+            <span class="badge" [class.ok]="!claim.closed">
+              {{ claim.closed ? 'Closed' : 'Open' }}
+            </span>
+          </dd>
+        </dl>
+      </section>
     }
   `
 })

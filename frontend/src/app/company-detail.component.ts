@@ -10,34 +10,64 @@ import { Claim, Company } from './models';
   selector: 'app-company-detail',
   imports: [RouterLink, DatePipe],
   template: `
-    <p><a routerLink="/">Back to companies</a></p>
-    @if (error) {
-      <p>{{ error }}</p>
-    } @else if (!company || !claims) {
-      <p>Loading...</p>
-    } @else {
-      <h1>{{ company.name }}</h1>
-      <p><button type="button" (click)="saveCompanyJson()">Save company JSON</button></p>
-      <p>Active: {{ company.active ? 'yes' : 'no' }}</p>
-      <p>Has active insurance policy: {{ company.hasActiveInsurancePolicy ? 'yes' : 'no' }}</p>
-      <p>Insurance end date: {{ company.insuranceEndDate | date: 'yyyy-MM-dd' }}</p>
-      <p>{{ company.address1 }} {{ company.address2 }} {{ company.address3 }}</p>
-      <p>{{ company.postcode }} {{ company.country }}</p>
+    <a routerLink="/" class="nav-link">Back to companies</a>
 
-      <h2>Claims</h2>
-      <p><button type="button" (click)="saveClaimsJson()">Save claims JSON</button></p>
-      @if (claims.length === 0) {
-        <p>No claims for this company.</p>
-      } @else {
-        <ul>
-          @for (claim of claims; track claim.ucr) {
-            <li>
-              <a [routerLink]="['/claims', claim.ucr]">{{ claim.ucr }}</a>
-              — {{ claim.assuredName }} — {{ claim.closed ? 'closed' : 'open' }}
-            </li>
-          }
-        </ul>
-      }
+    @if (error) {
+      <p class="alert">{{ error }}</p>
+    } @else if (!company || !claims) {
+      <p class="muted">Loading company…</p>
+    } @else {
+      <div class="page-header">
+        <h1>{{ company.name }}</h1>
+        <div class="toolbar">
+          <button type="button" class="primary" (click)="saveCompanyJson()">
+            Save company JSON
+          </button>
+          <button type="button" (click)="saveClaimsJson()">
+            Save claims JSON
+          </button>
+        </div>
+      </div>
+
+      <section class="card">
+        <h2>Company</h2>
+        <dl class="facts">
+          <dt>Active</dt>
+          <dd>{{ company.active ? 'Yes' : 'No' }}</dd>
+          <dt>Insurance policy</dt>
+          <dd>
+            <span class="badge" [class.ok]="company.hasActiveInsurancePolicy">
+              {{ company.hasActiveInsurancePolicy ? 'Active' : 'Inactive' }}
+            </span>
+          </dd>
+          <dt>Insurance end date</dt>
+          <dd>{{ company.insuranceEndDate | date: 'yyyy-MM-dd' }}</dd>
+          <dt>Address</dt>
+          <dd>{{ address }}</dd>
+        </dl>
+      </section>
+
+      <section class="card">
+        <h2>Claims</h2>
+        @if (claims.length === 0) {
+          <p class="muted">No claims for this company.</p>
+        } @else {
+          <ul class="row-list">
+            @for (claim of claims; track claim.ucr) {
+              <li>
+                <a [routerLink]="['/claims', claim.ucr]">
+                  <span>{{ claim.ucr }} — {{ claim.assuredName }}</span>
+                  <span class="row-meta">
+                    <span class="badge" [class.ok]="!claim.closed">
+                      {{ claim.closed ? 'Closed' : 'Open' }}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            }
+          </ul>
+        }
+      </section>
     }
   `
 })
@@ -49,6 +79,22 @@ export class CompanyDetailComponent implements OnInit {
   company: Company | null = null;
   claims: Claim[] | null = null;
   error = '';
+
+  get address(): string {
+    if (!this.company) {
+      return '';
+    }
+
+    return [
+      this.company.address1,
+      this.company.address2,
+      this.company.address3,
+      this.company.postcode,
+      this.company.country
+    ]
+      .filter(part => !!part)
+      .join(', ');
+  }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));

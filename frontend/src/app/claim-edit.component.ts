@@ -9,47 +9,45 @@ import { Claim } from './models';
   imports: [FormsModule, RouterLink],
   template: `
     @if (error) {
-      <p>{{ error }}</p>
+      <p class="alert">{{ error }}</p>
     } @else if (!claim) {
-      <p>Loading...</p>
+      <p class="muted">Loading claim…</p>
     } @else {
-      <p><a [routerLink]="['/claims', claim.ucr]">Cancel</a></p>
-      <h1>Edit claim {{ claim.ucr }}</h1>
+      <a [routerLink]="['/claims', claim.ucr]" class="nav-link">Cancel</a>
+
+      <div class="page-header">
+        <h1>Edit claim {{ claim.ucr }}</h1>
+      </div>
+
       @if (saveError) {
-        <p>{{ saveError }}</p>
+        <p class="alert">{{ saveError }}</p>
       }
-      <form (ngSubmit)="save()">
-        <p>
-          <label>
-            Claim date
-            <input name="claimDate" type="date" [(ngModel)]="claimDate" />
-          </label>
-        </p>
-        <p>
-          <label>
-            Loss date
-            <input name="lossDate" type="date" [(ngModel)]="lossDate" />
-          </label>
-        </p>
-        <p>
-          <label>
-            Assured name
-            <input name="assuredName" [(ngModel)]="assuredName" />
-          </label>
-        </p>
-        <p>
-          <label>
-            Incurred loss
-            <input name="incurredLoss" type="number" step="0.01" [(ngModel)]="incurredLoss" />
-          </label>
-        </p>
-        <p>
-          <label>
-            Closed
-            <input name="closed" type="checkbox" [(ngModel)]="closed" />
-          </label>
-        </p>
-        <button type="submit">Save</button>
+
+      <form class="card form" (ngSubmit)="save()">
+        <label class="field">
+          Claim date
+          <input name="claimDate" type="date" [(ngModel)]="claimDate" />
+        </label>
+        <label class="field">
+          Loss date
+          <input name="lossDate" type="date" [(ngModel)]="lossDate" />
+        </label>
+        <label class="field">
+          Assured name
+          <input name="assuredName" type="text" [(ngModel)]="assuredName" />
+        </label>
+        <label class="field">
+          Incurred loss
+          <input name="incurredLoss" type="number" step="0.01" [(ngModel)]="incurredLoss" />
+        </label>
+        <label class="switch">
+          <input name="closed" type="checkbox" [(ngModel)]="closed" />
+          Closed
+        </label>
+        <div class="toolbar">
+          <button type="submit" class="primary">Save claim</button>
+          <a class="button" [routerLink]="['/claims', claim.ucr]">Cancel</a>
+        </div>
       </form>
     }
   `
